@@ -32,14 +32,34 @@ public class AppraisalServiceImpl implements AppraisalService {
 
     @Override
     public void saveappraisalData(appraisalEntity appraisal) {
+
+        String jewelName = appraisal.getJewelName();
+        String jewelNetWt = appraisal.getJewelNetWt();
+        int loanId = appraisal.getLoanId();
+
+        if (jewelName == null || jewelName.isEmpty()) {
+            throw new IllegalArgumentException("JewelName cannot be null or empty");
+        }
+
+        if (jewelNetWt == null || jewelNetWt.isEmpty()) {
+            throw new IllegalArgumentException("JewelNetWt cannot be null or empty");
+        }
+
+        if (!jewelName.matches("\\d+")) {
+            throw new IllegalArgumentException("JewelName should only contain numeric characters");
+        }
+        boolean appraisalExists = apprepo.existsByLoanIdAndJewelNameAndJewelNetWt(loanId, jewelName, jewelNetWt);
+        if (appraisalExists) {
+            throw new IllegalArgumentException("Appraisal with the same loanId, jewelName, and jewelNetWt already exists");
+        }
+
         appraisalEntity tempdata = new appraisalEntity();
         tempdata.setLoanId(appraisal.getLoanId());
-        tempdata.setJewelName(appraisal.getJewelName());
-        tempdata.setJewelNetWt(appraisal.getJewelNetWt());
+        tempdata.setJewelName(jewelName);
+        tempdata.setJewelNetWt(jewelNetWt);
+
         appraisalEntity appdetails = apprepo.save(tempdata);
-        if(appdetails!=null){
-            System.out.println("Details are saved");
-        }
+        System.out.println("Details are saved");
     }
 
     @Override

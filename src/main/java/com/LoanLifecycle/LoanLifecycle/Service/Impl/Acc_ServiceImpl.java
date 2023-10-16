@@ -38,6 +38,12 @@ public class Acc_ServiceImpl implements Acc_Service {
         if (acc_details.getAccountNo() == null || acc_details.getAccountNo().isEmpty()) {
             throw new IllegalArgumentException("Account number is required");
         }
+        String accountNo = acc_details.getAccountNo();
+
+        if (!accountNo.matches("\\d+")) {
+            throw new IllegalArgumentException("Account number should only contain numeric characters");
+        }
+
         boolean accountExists = acc_repo.existsByAccountNo(acc_details.getAccountNo());
         if (accountExists) {
             throw new IllegalArgumentException("Account number " + acc_details.getAccountNo() + " already exists");
@@ -56,7 +62,25 @@ public class Acc_ServiceImpl implements Acc_Service {
     public void updateAcc(accEntity acc_details, int acc_id) {
         accEntity existingAcc = acc_repo.findById(acc_id).orElse(null);
 
+
+
         if (existingAcc != null) {
+
+            if (acc_details.getAccountNo() == null || acc_details.getAccountNo().isEmpty()) {
+                throw new IllegalArgumentException("Account number is required");
+            }
+
+            boolean accountExists = acc_repo.existsByAccountNo(acc_details.getAccountNo());
+            if (accountExists) {
+                throw new IllegalArgumentException("Account number " + acc_details.getAccountNo() + " already exists");
+            }
+
+            String accountNo = acc_details.getAccountNo();
+
+            if (!accountNo.matches("\\d+")) {
+                throw new IllegalArgumentException("Account number should only contain numeric characters");
+            }
+
             existingAcc.setIfscCode(acc_details.getIfscCode());
             existingAcc.setAccountNo(acc_details.getAccountNo());
             existingAcc.setHolderName(acc_details.getHolderName());
