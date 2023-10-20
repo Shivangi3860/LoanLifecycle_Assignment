@@ -9,7 +9,7 @@ public class CustomerEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="customer_id")
+    @Column(name="id")
     private Integer CustomerId;
 
     @Column
@@ -19,10 +19,6 @@ public class CustomerEntity {
 
     public int getCustomerId() {
         return CustomerId;
-    }
-
-    public void setCustomerId(Integer customerId) {
-        CustomerId = customerId;
     }
 
     public String getName() {

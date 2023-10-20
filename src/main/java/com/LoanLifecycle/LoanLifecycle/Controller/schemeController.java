@@ -32,8 +32,8 @@ public class schemeController {
 
     @PutMapping("{SchemeId}")
     public String UpdateScheme(@PathVariable int SchemeId,@RequestBody SchemeEntity schemeData){
-        schemeService.updateScheme(SchemeId,schemeData);
-        return "Updated Scheme";
+        return schemeService.updateScheme(SchemeId,schemeData);
+
     }
 
     @DeleteMapping("{SchemeId}")

@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name = "Transaction", schema="public")
+@Table(name = "Fund_Transfer    ", schema="public")
 public class TransactionEntity {
 
     @Id

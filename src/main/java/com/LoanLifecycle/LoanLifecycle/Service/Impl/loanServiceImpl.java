@@ -30,6 +30,7 @@ public class loanServiceImpl implements LoanService {
     }
 
 
+    @Override
     public void saveLoanData(loanEntity loandata){
         loanEntity tempLoan = new loanEntity();
         tempLoan.setLenderId(loandata.getLenderId());
@@ -37,6 +38,8 @@ public class loanServiceImpl implements LoanService {
         tempLoan.setAssignationAmount(loandata.getAssignationAmount());
         tempLoan.setClosingAmount(loandata.getClosingAmount());
         tempLoan.setPrincipalAmount(loandata.getPrincipalAmount());
+        tempLoan.setAppraisalId(loandata.getAppraisalId());
+        tempLoan.setSchemeId(loandata.getSchemeId());
 
         loanEntity loandetails = loanrepo.save(tempLoan);
 
@@ -53,6 +56,8 @@ public class loanServiceImpl implements LoanService {
             LoanSetData.setPrincipalAmount(loandata.getPrincipalAmount());
             LoanSetData.setClosingAmount(loandata.getClosingAmount());
             LoanSetData.setAssignationAmount(loandata.getAssignationAmount());
+            LoanSetData.setAppraisalId(loandata.getAppraisalId());
+            LoanSetData.setSchemeId(loandata.getSchemeId());
             loanrepo.save(LoanSetData);
             return "Loan Service Updated";
         }

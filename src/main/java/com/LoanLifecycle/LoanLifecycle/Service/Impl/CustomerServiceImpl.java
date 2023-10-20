@@ -29,19 +29,45 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void saveCustomer(CustomerEntity Customer) {
+    public void saveCustomer(CustomerEntity customer) {
+        String name = customer.getName();
+        String phone = customer.getPhone();
+
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or empty");
+        }
+
+        if (phone == null || phone.isEmpty()) {
+            throw new IllegalArgumentException("Phone cannot be null or empty");
+        }
+
         CustomerEntity example = new CustomerEntity();
-        example.setName(Customer.getName());
-        example.setPhone(Customer.getPhone());
-        CustomerEntity CustomerDetail = customerRepository.save(example);
-        System.out.println("Customer saved to db with CustomerId : " + CustomerDetail.getCustomerId());
+        example.setName(name);
+        example.setPhone(phone);
+
+        CustomerEntity customerDetail = customerRepository.save(example);
+        System.out.println("Customer saved to db with CustomerId : " + customerDetail.getCustomerId());
     }
+
+
+
+
 
 
     @Override
     public void UpdateCustomer(CustomerEntity Customer, int CustomerId) {
         Optional<CustomerEntity> CustomerDetailOpt = customerRepository.findById(CustomerId);
         if(CustomerDetailOpt.isPresent()){
+            String name = Customer.getName();
+            String phone = Customer.getPhone();
+
+            if (name == null || name.isEmpty()) {
+                throw new IllegalArgumentException("Name cannot be null or empty");
+            }
+
+            if (phone == null || phone.isEmpty()) {
+                throw new IllegalArgumentException("Phone cannot be null or empty");
+            }
             CustomerEntity CustomerDetail = CustomerDetailOpt.get();
             if(Customer.getName() != null || Customer.getName().isEmpty())
                 CustomerDetail.setName(Customer.getName());

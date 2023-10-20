@@ -31,17 +31,18 @@ public class SchemeServiceImpl implements SchemeService {
 
     @Override
     public String SaveScheme(SchemeEntity schemeData) {
-        boolean schemeExists = schemeRepo.existsBySchemeNameAndInterestRateAndLoanId(
+        boolean schemeExists = schemeRepo.existsBySchemeNameAndInterestRate(
                 schemeData.getSchemeName(),
-                schemeData.getInterestRate(),
-                schemeData.getLoanId()
+                schemeData.getInterestRate()
         );
 
         if (!schemeExists) {
+            if (!schemeData.getInterestRate().matches("\\d+")) {
+                throw new IllegalArgumentException("JewelName should only contain numeric characters");
+            }
             SchemeEntity tempData = new SchemeEntity();
             tempData.setSchemeName(schemeData.getSchemeName());
             tempData.setInterestRate(schemeData.getInterestRate());
-            tempData.setLoanId(schemeData.getLoanId());
 
             schemeRepo.save(tempData);
             return "Scheme details are saved";
@@ -51,16 +52,29 @@ public class SchemeServiceImpl implements SchemeService {
     }
 
     @Override
-    public void updateScheme(int schemeId,SchemeEntity schemeData){
+    public String updateScheme(int schemeId,SchemeEntity schemeData){
 
         Optional<SchemeEntity>SchemeOpt = schemeRepo.findById(schemeId);
-        if(SchemeOpt.isPresent()){
+        boolean schemeExists = schemeRepo.existsBySchemeNameAndInterestRate(
+                schemeData.getSchemeName(),
+                schemeData.getInterestRate()
+        );
+        if(SchemeOpt.isPresent() && !schemeExists ){
+
+            if (!schemeData.getInterestRate().matches("\\d+")) {
+                throw new IllegalArgumentException("InterestRate should only contain numeric characters");
+            }
+
             SchemeEntity SchemeDataSet = SchemeOpt.get();
             SchemeDataSet.setSchemeName(schemeData.getSchemeName());
-            SchemeDataSet.setLoanId(schemeData.getLoanId());
             SchemeDataSet.setInterestRate(schemeData.getInterestRate());
             schemeRepo.save(SchemeDataSet);
+            return "Scheme Updated SuccessFully";
         }
+        else {
+            return "Scheme with the given loan id and interestRate already exists or scheme with given id is not found";
+        }
+
 
     }
 

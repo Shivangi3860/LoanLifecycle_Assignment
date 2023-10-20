@@ -35,8 +35,10 @@ public class AppraisalServiceImpl implements AppraisalService {
 
         String jewelName = appraisal.getJewelName();
         String jewelNetWt = appraisal.getJewelNetWt();
-        int loanId = appraisal.getLoanId();
-
+        boolean appraisalExists = apprepo.existsByJewelNameAndJewelNetWt(jewelName, jewelNetWt);
+        if (appraisalExists) {
+            throw new IllegalArgumentException("Appraisal with the same loanId, jewelName, and jewelNetWt already exists");
+        }
         if (jewelName == null || jewelName.isEmpty()) {
             throw new IllegalArgumentException("JewelName cannot be null or empty");
         }
@@ -45,16 +47,12 @@ public class AppraisalServiceImpl implements AppraisalService {
             throw new IllegalArgumentException("JewelNetWt cannot be null or empty");
         }
 
-        if (!jewelName.matches("\\d+")) {
+        if (!jewelNetWt.matches("\\d+")) {
             throw new IllegalArgumentException("JewelName should only contain numeric characters");
         }
-        boolean appraisalExists = apprepo.existsByLoanIdAndJewelNameAndJewelNetWt(loanId, jewelName, jewelNetWt);
-        if (appraisalExists) {
-            throw new IllegalArgumentException("Appraisal with the same loanId, jewelName, and jewelNetWt already exists");
-        }
+
 
         appraisalEntity tempdata = new appraisalEntity();
-        tempdata.setLoanId(appraisal.getLoanId());
         tempdata.setJewelName(jewelName);
         tempdata.setJewelNetWt(jewelNetWt);
 
@@ -67,11 +65,35 @@ public class AppraisalServiceImpl implements AppraisalService {
         Optional<appraisalEntity> appraisalOpt = apprepo.findById(appraisalId);
         if(appraisalOpt.isPresent()){
 
-            appraisalEntity appraisalDetail = appraisalOpt.get();
-            appraisalDetail.setLoanId(appraisal.getLoanId());
-            appraisalDetail.setJewelNetWt(appraisal.getJewelNetWt());
-            appraisalDetail.setJewelName(appraisal.getJewelName());
-            apprepo.save(appraisalDetail);
+            String jewelName = appraisal.getJewelName();
+            String jewelNetWt = appraisal.getJewelNetWt();
+
+            boolean appraisalExists = apprepo.existsByJewelNameAndJewelNetWt(jewelName, jewelNetWt);
+            if (appraisalExists) {
+                throw new IllegalArgumentException("Appraisal with the same loanId, jewelName, and jewelNetWt already exists");
+            }
+
+            if (jewelName == null || jewelName.isEmpty()) {
+                throw new IllegalArgumentException("JewelName cannot be null or empty");
+            }
+
+            if (jewelNetWt == null || jewelNetWt.isEmpty()) {
+                throw new IllegalArgumentException("JewelNetWt cannot be null or empty");
+            }
+
+            if (!jewelNetWt.matches("\\d+")) {
+                throw new IllegalArgumentException("JewelName should only contain numeric characters");
+            }
+
+
+            else {
+                appraisalEntity appraisalDetail = appraisalOpt.get();
+                appraisalDetail.setJewelNetWt(appraisal.getJewelNetWt());
+                appraisalDetail.setJewelName(appraisal.getJewelName());
+                apprepo.save(appraisalDetail);
+            }}
+        else{
+            throw new IllegalArgumentException("Appraisal with given id does not exists");
         }
     }
 

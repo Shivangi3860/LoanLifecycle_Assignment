@@ -4,6 +4,7 @@ package com.LoanLifecycle.LoanLifecycle.Service.Impl;
 import com.LoanLifecycle.LoanLifecycle.Entity.KycEntity;
 import com.LoanLifecycle.LoanLifecycle.Repository.kycRepo;
 import com.LoanLifecycle.LoanLifecycle.dto.KYCDtoResponse;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,8 +21,8 @@ public class Kyc_Service {
     @Autowired
     private kycRepo kyc_Repo;
 
-    public String UploadKyc(MultipartFile adhar_front, MultipartFile adhar_back, MultipartFile pan,
-                                   Integer customer_id) throws IOException {
+    public String UploadKyc(MultipartFile adhar_front, @NotNull MultipartFile adhar_back, MultipartFile pan,
+                            Integer customer_id) throws IOException {
      String FrontFilePath = FolderPath+ adhar_front.getOriginalFilename();
      String BackFilePath = FolderPath + adhar_back.getOriginalFilename();
      String PanPath = FolderPath+ pan.getOriginalFilename();

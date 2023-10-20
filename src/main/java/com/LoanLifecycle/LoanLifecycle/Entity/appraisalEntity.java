@@ -25,8 +25,6 @@ public class appraisalEntity {
     @Column(name="jewel_net_wt")
     private String jewelNetWt;
 
-    @Column(name = "loan_id")
-    private int loanId;
     public int getId() {
         return id;
     }
@@ -50,16 +48,6 @@ public class appraisalEntity {
     public void setJewelNetWt(String jewelNetWt) {
         this.jewelNetWt = jewelNetWt;
     }
-
-    public int getLoanId() {
-        return loanId;
-    }
-
-    public void setLoanId(int loanId) {
-        this.loanId = loanId;
-    }
-
-
 
 
 }

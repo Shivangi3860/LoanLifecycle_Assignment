@@ -24,8 +24,6 @@ private String schemeName;
  @Column(name="interest_rate")
   private String interestRate;
 
- @Column(name="loan_id")
- private int loanId;
 
     public void setId(int id) {
         Id = id;
@@ -37,10 +35,6 @@ private String schemeName;
 
     public void setInterestRate(String interestRate) {
         this.interestRate = interestRate;
-    }
-
-    public void setLoanId(int loanId) {
-        this.loanId = loanId;
     }
 
 

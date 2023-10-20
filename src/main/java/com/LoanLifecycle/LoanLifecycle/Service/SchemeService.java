@@ -10,7 +10,7 @@ public interface SchemeService {
 
     String SaveScheme(SchemeEntity schemeData);
 
-    void updateScheme(int schemeId,SchemeEntity schemeData);
+    String updateScheme(int schemeId,SchemeEntity schemeData);
 
     void DeleteScheme(int schemeId);
 
